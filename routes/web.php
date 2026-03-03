@@ -12,5 +12,6 @@ Route::get('/user', [UserController::class, 'index']);
 Route::get('/user/tambah', [UserController::class, 'tambah']);
 Route::get('/user/ubah/{id}', [UserController::class, 'ubah']);
 Route::get('/user/hapus/{id}', [UserController::class, 'hapus']);
+Route::get('/', [\App\Http\Controllers\WelcomeController::class, 'index']);
 Route::put('/user/ubah_simpan/{id}', [UserController::class, 'ubah_simpan']);
 Route::post('/user/tambah_simpan', [UserController::class, 'tambah_simpan']);
