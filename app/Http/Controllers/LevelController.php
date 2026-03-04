@@ -1,21 +1,31 @@
 <?php
 namespace App\Http\Controllers;
+use App\Models\LevelModel;
+use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 class LevelController extends Controller
 {
     public function index()
     {
-        //  DB::insert('insert into m_level(level_kode, level_nama, created_at) values (?, ?, ?)', ['CUS', 'Pelanggan', now()]);
-        //  return 'Insert data baru berhasil';
-
-        // $row = DB::update('update m_level set level_nama = ? where level_kode = ?', ['Customer', 'CUS']);
-        // return 'Update data berhasil. Jumlah data yang diupdate : ' . $row . ' baris';
-
-        // $row = DB::delete('delete from m_level where level_kode = ?', ['CUS']);
-        // return 'Delete data berhasil. Jumlah data yang dihapus : ' . $row . ' baris';
-
-        $data = DB::select('select * from m_level');
-        return view('level', ['data' => $data]);
+        $breadcrumb = (object)[
+            'title' => 'Data Level',
+            'list' => ['Home','Level']
+        ];
+        $page = (object)[
+            'title' => 'Data level pengguna'
+        ];
+        $activeMenu = 'level';
+        return view('level.index', compact('breadcrumb','page','activeMenu'));
+    }
+    public function list()
+    {
+        $level = LevelModel::select('level_id','level_nama');
+        return DataTables::of($level)
+            ->addIndexColumn()
+            ->addColumn('aksi', function ($level) {
+                return '<button class="btn btn-sm btn-primary">Edit</button>';
+            })
+            ->rawColumns(['aksi'])
+            ->make(true);
     }
 }
